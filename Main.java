@@ -1,6 +1,4 @@
 public class Main {
-    public static void main(String[] args){
-      CheckerPiece One = new CheckerPiece(0);
-      System.out.println(One);
-    }
+    // ask if you want to play against player or computer
+    // if computer, use AI version and set player isAI to true
 }
