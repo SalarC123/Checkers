@@ -1,4 +1,11 @@
 public class Main {
-    // ask if you want to play against player or computer
-    // if computer, use AI version and set player isAI to true
+    public static void main(String[] args) {
+        GameBoard gb = new GameBoard();
+        System.out.println(gb);
+        gb.updateBoard(5,0,4,1);
+        gb.updateBoard(2,1,3,2);
+        gb.updateBoard(2,3,3,4);
+        gb.updateBoard(4,1,2,3);
+        System.out.println(gb);
+    }
 }
