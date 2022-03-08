@@ -2,12 +2,12 @@ class CheckerPiece{
   private String color;//Color
   private String status;//Status
   //Object Constructor (Below) Requires Color.
-  public void Checkerpiece(String oriColor){
+  public CheckerPiece(String oriColor){
     color = oriColor;//Sets Color
     status = "n";//Default status
   }
   //Object Constructor (Below) Requires Color & status
-  public void Checkerpiece(String oriColor, String oriStatus){
+  public CheckerPiece(String oriColor, String oriStatus){
     color = oriColor;//Sets  Color
     status = oriStatus;//Sets status
   }
@@ -21,6 +21,6 @@ class CheckerPiece{
     return status;
   }
   public String toString(){//overriding the toString() method  
-  return (status + color);
+  return (status + " " + color);
  }
 }
