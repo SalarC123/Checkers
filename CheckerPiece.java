@@ -1,22 +1,13 @@
 public class CheckerPiece {
 
-  private String color;
-  private String status;
-  
-  public CheckerPiece(String c, String s){
+  protected String color;
+  public CheckerPiece(String c){
     color = c;
-    status = s;
   }
-
-  public String toString() {
-      return color + status;
-  }
-
-  public String getStatus() {
-      return status;
-  }
-
   public String getColor() {
       return color;
   }
+  public String toString(){//overriding the toString() method  
+  return ("n" + color);
+ }
 }

@@ -7,7 +7,7 @@ public class GameBoard {
     gameBoard = new CheckerPiece[8][8];
     for (int i = 0; i < 8; i++){
       if(i%2 == 1){
-        gameBoard[0][i] = new CheckerPiece("w","n");
+        gameBoard[0][i] = new CheckerPiece("w");
       }
       else
       {
@@ -16,7 +16,7 @@ public class GameBoard {
     }
     for (int i = 0; i < 8; i++){
       if(i%2 == 0){
-        gameBoard[1][i] = new CheckerPiece("w","n");
+        gameBoard[1][i] = new CheckerPiece("w");
       }
       else
       {
@@ -25,7 +25,7 @@ public class GameBoard {
     }
     for (int i = 0; i < 8; i++){
       if(i%2 == 1){
-        gameBoard[2][i] = new CheckerPiece("w","n");
+        gameBoard[2][i] = new CheckerPiece("w");
       }
       else
       {
@@ -40,7 +40,7 @@ public class GameBoard {
     }
     for (int i = 0; i < 8; i++){
       if(i%2 == 0){
-        gameBoard[5][i] = new CheckerPiece("b","n");
+        gameBoard[5][i] = new CheckerPiece("b");
       }
       else{
         gameBoard[5][i] = null;
@@ -48,7 +48,7 @@ public class GameBoard {
     }
     for (int i = 0; i < 8; i++){
       if(i%2 == 1){
-        gameBoard[6][i] = new CheckerPiece("b","n");
+        gameBoard[6][i] = new CheckerPiece("b");
       }
       else{
         gameBoard[6][i] = null;
@@ -56,7 +56,7 @@ public class GameBoard {
     }
     for (int i = 0; i < 8; i++){
       if(i%2 == 0){
-        gameBoard[7][i] = new CheckerPiece("b","n");
+        gameBoard[7][i] = new CheckerPiece("b");
       }
       else{
         gameBoard[7][i] = null;
@@ -451,16 +451,17 @@ public class GameBoard {
   public String toString() {
       String finalString = "";
       for (int i = 0; i < gameBoard.length; i++) {
+        finalString +="|-------------------------------|\n";
           for (int j = 0; j < gameBoard[0].length; j++) {
               if (gameBoard[i][j] == null) {
-                  finalString += " . ";
+                  finalString += "| . ";
               } else {
-                  finalString += gameBoard[i][j] + " ";
+                  finalString += "|" + gameBoard[i][j] + " ";
               }
           }
-          finalString += "\n";
+          finalString += "|\n";
       }
-
+      finalString +="|-------------------------------|\n";
       return finalString;
   }
   
