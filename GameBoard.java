@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+ statusimport java.util.ArrayList;
 
 public class GameBoard {
   private CheckerPiece[][] gameBoard;
@@ -78,7 +78,7 @@ public class GameBoard {
       
       CheckerPiece piece = gameBoard[row][col];
       if (piece == null) return allPossibleJumps;
-      String pieceType = piece.getStatus();
+      String pieceType = piece.toString().substring(0,1);
       String pieceColor = piece.getColor();
 
       // if spot in bottom right is on the board and a king or white piece is moving there
