@@ -1,21 +1,39 @@
-import java.awt.Color;
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.*;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) {
+public class Main{
+	public static void main (String[] args)
+	{
+		try
+		{
+			Main obj = new Main();
+			obj.run (args);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace ();
+		}
+	}
+	int row = 0;
+	int col = 0;
+	public void run(String[] args){
         Scanner sc = new Scanner(System.in);
         GameBoard gb = new GameBoard();
-        
+        JOptionPane.showMessageDialog(null, "Thanks for playing our checkers game! \nFirst, each player will enter their name. \nThen, you will take turns selecting the pieces you want to move, and then where you want to move that piece. \nGood Luck!");
         JFrame GUI = new JFrame(); 
-        GUI.setSize(400, 400); 
+        GUI.setSize(527, 550); 
+		GUI.setResizable(false);
         GUI.setTitle("CheckerBoard"); 
         GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-
+		GUI.getContentPane().addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				col = e.getX()/64;
+				row = e.getY()/64;
+			}
+		});
+		
         JPanel checkerBoard = new JPanel() {
             @Override
             public void paint(Graphics g) {
@@ -55,17 +73,13 @@ public class Main {
         GUI.add(checkerBoard);
         GUI.setVisible(true);
 
-        System.out.print("Player 1, enter your name: ");
-        String name = sc.nextLine();
+        String name = JOptionPane.showInputDialog("Player 1, enter your name: ");
         Player p1 = new Player(name, "w", true, false);
-        
-        System.out.println("Would you like to play against the computer? (y or n)");
-        String response = sc.nextLine();
+        int n = JOptionPane.showConfirmDialog(null,"Would you like to play against the computer?","Computer", JOptionPane.YES_NO_OPTION);
         Player p2;
-        if (response.equals("y")) p2 = new Player("computer", "b", false, true);
+        if (n == JOptionPane.YES_OPTION) p2 = new Player("computer", "b", false, true);
         else {
-            System.out.print("Player 2, enter your name: ");
-            p2 = new Player(sc.nextLine(), "b", false, false);
+            p2 = new Player(JOptionPane.showInputDialog("Player 2, enter your name: "), "b", false, false);
         }
 
         boolean win = false;
@@ -76,17 +90,13 @@ public class Main {
             System.out.println(currentPlayer.getName() + "'s turn");
 
             boolean validPieceChosen = false;
-            int row = 0, col = 0;
             while (!validPieceChosen) {
-                System.out.print("Enter indices of piece to move (e.g. 1,3): ");
-                String indices = sc.nextLine();
-                row = Integer.parseInt(indices.substring(0,1));
-                col = Integer.parseInt(indices.substring(2));
+				System.out.println(row+","+col);
                 CheckerPiece currentPiece = gb.getGameBoard()[row][col];
                 if (currentPiece != null && 
                     currentPiece.getColor().equals(currentPlayerColor) &&
                     gb.getAllPossibleJumps(row, col).size() > 0) validPieceChosen = true;
-                else System.out.println("INVALID PIECE");
+                //else System.out.println("INVALID PIECE");
             }
 
             System.out.print("Possible moves: ");
