@@ -116,206 +116,10 @@ public class GameBoard {
       return allPossibleJumps;
   }
 
-  // public String checkJump(CheckerPiece piece, String jump, int row, int column){
-  //   if(piece.getColor().equals("b"))
-  //   {
-  //     if(piece.getStatus().equals("n"))
-  //     {
-  //       if (jump.equals("left"))
-  //       {
-  //         if (gameBoard[row + 1][column - 1] == null)
-  //         {
-  //           return "left";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row + 1, column - 1);
-  //           if (temp.equals("left"))
-  //           {
-  //             return "double left";
-  //           }
-  //         }
-  //       }
-  //       else if (jump.equals("right"))
-  //       {
-  //         if (gameBoard[row + 1][column + 1] == null)
-  //         {
-  //           return "right";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row + 1, column + 1);
-  //           if (temp.equals("right"))
-  //           {
-  //             return "double right";
-  //           }
-  //         }
-  //       }
-  //     }
-  //     else
-  //     {
-  //       if (jump.equals("left"))
-  //       {
-  //         if (gameBoard[row + 1][column - 1] == null)
-  //         {
-  //           return "left";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row + 1, column - 1);
-  //           if (temp.equals("left"))
-  //           {
-  //             return "double left";
-  //           }
-  //         }
-  //       }
-  //       else if (jump.equals("right"))
-  //       {
-  //         if (gameBoard[row + 1][column + 1] == null)
-  //         {
-  //           return "right";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row + 1, column + 1);
-  //           if (temp.equals("right"))
-  //           {
-  //             return "double right";
-  //           }
-  //         }
-  //       }
-  //       else if (jump.equals("reverse left"))
-  //       {
-  //         if (gameBoard[row - 1][column - 1] == null)
-  //         {
-  //           return "reverse left";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row - 1, column - 1);
-  //           if (temp.equals("reverse left"))
-  //           {
-  //             return "double reverse left";
-  //           }
-  //         }
-  //       }
-  //       else if (jump.equals("reverse right"))
-  //       {
-  //         if (gameBoard[row - 1][column + 1] == null)
-  //         {
-  //           return "reverse right";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row - 1, column + 1);
-  //           if (temp.equals("reverse right"))
-  //           {
-  //             return "double reverse right";
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   else if(piece.getColor().equals("w"))
-  //   {
-  //     if(piece.getStatus().equals("n"))
-  //     {
-  //       if (jump.equals("left"))
-  //       {
-  //         if (gameBoard[row - 1][column - 1] == null)
-  //         {
-  //           return "left";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row - 1, column - 1);
-  //           if (temp.equals("left"))
-  //           {
-  //             return "double left";
-  //           }
-  //         }
-  //       }
-  //       else if (jump.equals("right")){
-  //         if (gameBoard[row - 1][column + 1] == null)
-  //         {
-  //           return "right";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row - 1, column + 1);
-  //           if (temp.equals("right"))
-  //           {
-  //             return "double right";
-  //           }
-  //         }
-  //       }
-  //     }
-  //     else{
-  //       if (jump.equals("left")){
-  //         if (gameBoard[row - 1][column - 1] == null)
-  //         {
-  //           return "left";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row - 1, column - 1);
-  //           if (temp.equals("left"))
-  //           {
-  //             return "double left";
-  //           }
-  //         }
-  //       }
-  //       else if (jump.equals("right")){
-  //         if (gameBoard[row - 1][column + 1] == null)
-  //         {
-  //           return "right";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row - 1, column + 1);
-  //           if (temp.equals("right"))
-  //           {
-  //             return "double right";
-  //           }
-  //         }
-  //       }
-  //       else if (jump.equals("reverse left")){
-  //         if (gameBoard[row + 1][column - 1] == null)
-  //         {
-  //           return "reverse left";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row + 1, column - 1);
-  //           if (temp.equals("reverse left"))
-  //           {
-  //             return "double reverse left";
-  //           }
-  //         }
-  //       }
-  //       else if (jump.equals("reverse right")){
-  //         if (gameBoard[row + 1][column + 1] == null)
-  //         {
-  //           return "reverse right";
-  //         }
-  //         else
-  //         {
-  //           String temp = checkJump(piece, jump, row + 1, column + 1);
-  //           if (temp.equals("reverse right"))
-  //           {
-  //             return "double reverse right";
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return "can't";
-  // }
 
-
-  public void updateBoard(int fromRow, int fromCol, int toRow, int toCol) {
+  public boolean updateBoard(int fromRow, int fromCol, int toRow, int toCol) {
       String newSpot = ""+toRow+"-"+toCol;
-      if (!getAllPossibleJumps(fromRow, fromCol).contains(newSpot)) return;
+      if (!getAllPossibleJumps(fromRow, fromCol).contains(newSpot)) return false;
       // normal move
       if (Math.abs(fromRow-toRow) == 1) {
           gameBoard[toRow][toCol] = gameBoard[fromRow][fromCol];
@@ -327,126 +131,29 @@ public class GameBoard {
           gameBoard[(fromRow+toRow)/2][(fromCol+toCol)/2] = null;
           gameBoard[fromRow][fromCol] = null;
       }
-  }
-    
-    
-  // public void updateBoard(String jump, int row, int column){
-  //   String result = checkJump(gameBoard[row][column],jump,row,column);
-  //   boolean run = true;
-    
-  //   if(result.equals("can't"))
-  //   {run = false;}
 
-  //   if(run)
-  //   {
-  //     if(gameBoard[row][column].getColor().equals("b"))
-  //     {
-  //       if(result.equals("left"))
-  //       {
-  //         gameBoard[row+1][column-1] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("right"))
-  //       {
-  //         gameBoard[row+1][column+1] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("reverse left"))
-  //       {
-  //         gameBoard[row-1][column-1] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("reverse right"))
-  //       {
-  //         gameBoard[row-1][column+1] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-  //     }
-        
-  //     else if(gameBoard[row][column].getColor().equals("w"))
-  //     {
-  //       if(result.equals("left"))
-  //       {
-  //         gameBoard[row-1][column-1] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("right"))
-  //       {
-  //         gameBoard[row-1][column+1] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("reverse left"))
-  //       {
-  //         gameBoard[row+1][column-1] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("reverse right"))
-  //       {
-  //         gameBoard[row+1][column+1] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-  //     }
-      
-  //     if(gameBoard[row][column].getColor().equals("b"))
-  //     {
-  //       if(result.equals("double left"))
-  //       {
-  //         gameBoard[row+2][column-2] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("double right"))
-  //       {
-  //         gameBoard[row+2][column+2] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("double reverse left"))
-  //       {
-  //         gameBoard[row-2][column-2] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("double reverse right"))
-  //       {
-  //         gameBoard[row-2][column+2] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-  //     }
-  //     else if(gameBoard[row][column].getColor().equals("w"))
-  //     {
-  //       if(result.equals("double left"))
-  //       {
-  //         gameBoard[row-2][column-2] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("double right"))
-  //       {
-  //         gameBoard[row-2][column+2] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("double reverse left"))
-  //       {
-  //         gameBoard[row+2][column-2] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-        
-  //       else if(result.equals("double reverse right"))
-  //       {
-  //         gameBoard[row+2][column+2] = gameBoard[row][column];
-  //         gameBoard[row][column] = null;
-  //       }
-  //     }
-  //   }
-  // }
+      return true;
+  }
+
+  public String determineWinner() {
+      int whiteCount = 0;
+      int blackCount = 0;
+
+      for (int i = 0; i < gameBoard.length; i++) {
+          for (int j = 0; j < gameBoard[0].length; j++) {
+              CheckerPiece piece = gameBoard[i][j];
+              if (piece == null) continue;
+              String color = piece.getColor();
+
+              if (color.equals("w")) whiteCount++;
+              else if (color.equals("b")) blackCount++;
+          }
+      }
+
+      if (whiteCount == 0) return "b";
+      if (blackCount == 0) return "w";
+      return "none";
+  }
 
   public String toString() {
       String finalString = "";
