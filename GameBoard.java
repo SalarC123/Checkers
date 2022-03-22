@@ -1,79 +1,79 @@
 import java.util.ArrayList;
 
 public class GameBoard {
-  private CheckerPiece[][] gameBoard;//Declares Gameboard
+  private CheckerPiece[][] gameBoard;
   
   public GameBoard(){
-    gameBoard = new CheckerPiece[8][8];//Initialize Gameboard, Sets as 8x8 Board
-    for (int i = 0; i < 8; i++){//Loop <8
-      if(i%2 == 1){//Odd Detector
-        gameBoard[0][i] = new CheckerPiece("w");//Every other Piece on Row 0 Will be White
+    gameBoard = new CheckerPiece[8][8]; //Initialize Gameboard, Sets as 8x8 Board
+    for (int i = 0; i < 8; i++){
+      if(i%2 == 1){ //Odd Detector
+        gameBoard[0][i] = new CheckerPiece("w"); //Every other Piece on Row 0 Will be White
       }
       else
       {
-        gameBoard[0][i] = null;//Even Pieces are Null
+        gameBoard[0][i] = null; //Even Pieces are Null
       }
     }
-    for (int i = 0; i < 8; i++){//Loop <8
-      if(i%2 == 0){//Even Detector
-        gameBoard[1][i] = new CheckerPiece("w");//Every other Piece on Row 1 Will be White
+    for (int i = 0; i < 8; i++){
+      if(i%2 == 0){ //Even Detector
+        gameBoard[1][i] = new CheckerPiece("w"); //Every other Piece on Row 1 Will be White
       }
       else
       {
-        gameBoard[1][i] = null;//Odd Pieces are Null
+        gameBoard[1][i] = null; //Odd Pieces are Null
       }
     }
-    for (int i = 0; i < 8; i++){//Loop <8
+    for (int i = 0; i < 8; i++){
       if(i%2 == 1){//Odd Detector
-        gameBoard[2][i] = new CheckerPiece("w");//Every other Piece on Row 2 Will be White
+        gameBoard[2][i] = new CheckerPiece("w"); //Every other Piece on Row 2 Will be White
       }
       else
       {
-        gameBoard[2][i] = null;//Even pieces are Null
+        gameBoard[2][i] = null; //Even pieces are Null
       }
     }
-    for (int i = 0; i < 8; i++){//Loop <8
-      gameBoard[3][i] = null;//All Pieces in Row are Null
+    for (int i = 0; i < 8; i++){
+      gameBoard[3][i] = null; //All Pieces in Row are Null
     }
-    for (int i = 0; i < 8; i++){//Loop <8
-      gameBoard[4][i] = null;//All Pieces in Row are Null
+    for (int i = 0; i < 8; i++){
+      gameBoard[4][i] = null; //All Pieces in Row are Null
     }
-    for (int i = 0; i < 8; i++){//Loop <8
-      if(i%2 == 0){//Even Detector
-        gameBoard[5][i] = new CheckerPiece("b");//Every other Piece on Row 5 Will be Black
+    for (int i = 0; i < 8; i++){
+      if(i%2 == 0){ //Even Detector
+        gameBoard[5][i] = new CheckerPiece("b"); //Every other Piece on Row 5 Will be Black
       }
       else{
-        gameBoard[5][i] = null;//Odd Pieces are Null
+        gameBoard[5][i] = null; //Odd Pieces are Null
       }
     }
-    for (int i = 0; i < 8; i++){//Loop <8
-      if(i%2 == 1){//Odd Detector
-        gameBoard[6][i] = new CheckerPiece("b");//Every other Piece on Row 6 Will be Black
+    for (int i = 0; i < 8; i++){
+      if(i%2 == 1){ //Odd Detector
+        gameBoard[6][i] = new CheckerPiece("b"); //Every other Piece on Row 6 Will be Black
       }
       else{
-        gameBoard[6][i] = null;//Even Pieces are Null
+        gameBoard[6][i] = null;
       }
     }
-    for (int i = 0; i < 8; i++){//Loop <8
-      if(i%2 == 0){//Even Detector
-        gameBoard[7][i] = new CheckerPiece("b");//Every other Piece on Row 7 Will be Black
+    for (int i = 0; i < 8; i++){
+      if(i%2 == 0){ //Even Detector
+        gameBoard[7][i] = new CheckerPiece("b"); //Every other Piece on Row 7 Will be Black
       }
       else{
-        gameBoard[7][i] = null;//Odd Pieces are Null
+        gameBoard[7][i] = null; //Odd Pieces are Null
       }
     }
   }
 
-  public CheckerPiece[][] getGameBoard() {//Get
-      return gameBoard;//Self Explanitory
+  public CheckerPiece[][] getGameBoard() {
+      return gameBoard;
   }
 
-  private boolean isInArray(int row, int col) {//This Method Checks if the Values are inside the Array, Stops OOB Errors.
+  private boolean isInArray(int row, int col) { //This method checks if the values are inside the array, stops OOB errors.
       return row >= 0 && row < 8 && col >= 0 && col < 8;
   }
 
 
-  public ArrayList<String> getAllPossibleJumps(int row, int col) {//Magic Method that Checks for every Jump
+  public ArrayList<String> getAllPossibleJumps(int row, int col) { //Magic method that Checks for every possibke
       ArrayList<String> allPossibleJumps = new ArrayList<String>();
       
       CheckerPiece piece = gameBoard[row][col];
@@ -164,12 +164,12 @@ public class GameBoard {
               if (gameBoard[i][j] == null) {
                   finalString += "| . ";//Adds the Text "Barrier", then adds a . to represent nulls/empty spaces
               } else {
-                  finalString += "|" + gameBoard[i][j] + " ";//adds text "Barrier", then the information of the peice at that location on the board.
+                  finalString += "|" + gameBoard[i][j] + " "; //adds text "Barrier", then the information of the peice at that location on the board.
               }
           }
-          finalString += "|\n";// Adds End barrier & New Line
+          finalString += "|\n"; //Adds End barrier & New Line
       }
-      finalString +="|-------------------------------|\n";// Adds Bottom "Barrier"
+      finalString +="|-------------------------------|\n";//Adds Bottom "Barrier"
       return finalString;//Return
   }
   
