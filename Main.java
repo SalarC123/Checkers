@@ -18,6 +18,21 @@ public class Main{
 	}
 	int row = 0;
 	int col = 0;
+  public String InputIndices(Scanner sc){//Input Checker Function
+    String Indices = sc.nextLine();//Input Line
+    if(Indices.length() == 3 && Indices.charAt(0) >= 48 && Indices.charAt(0) <= 57 && Indices.charAt(2) >=48 && Indices.charAt(2) <= 57 && Indices.charAt(1) == 44){//Checks if everything meets Criteria
+      /*
+      if(Indices.charAt(1) == 45)
+        Indices = Character.toString((Indices.toCharArray())[1]-1);
+      */
+    return Indices;
+    }
+    else{
+      System.out.println("\nInvalid Input, Please Try Again");
+      InputIndices(sc);//Recursive Function that forces user to put input over & over again until it is correct.
+    }
+    return null;
+  }
 	public void run(String[] args){
         Scanner sc = new Scanner(System.in);
         GameBoard gb = new GameBoard();
@@ -102,7 +117,7 @@ public class Main{
             System.out.print("Possible moves: ");
             System.out.println(gb.getAllPossibleJumps(row, col));
             System.out.print("Enter indices of where you would like to move (e.g. 4,2): ");
-            String toIndices = sc.nextLine();
+            String toIndices = InputIndices(sc);
             int toRow = Integer.parseInt(toIndices.substring(0,1));
             int toCol = Integer.parseInt(toIndices.substring(2));
 
