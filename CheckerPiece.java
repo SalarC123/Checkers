@@ -1,13 +1,13 @@
 public class CheckerPiece {
 
-  protected String color;//Protected Because King Class Inheritence
-  public CheckerPiece(String c){// Constructor
+  protected String color; //Protected Because King Class Inheritence
+  public CheckerPiece(String c){
     color = c;
   }
-  public String getColor() {//Self Explanitory
+  public String getColor() {
       return color;
   }
-  public String toString(){//overriding the toString() method  
+  public String toString(){ //overriding the toString() method  
   return ("n" + color);
  }
 }
