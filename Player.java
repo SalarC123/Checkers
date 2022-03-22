@@ -4,30 +4,30 @@ public class Player {
     private boolean isTurn;
     public boolean isAI;
     
-    public Player(String n, String c, boolean t, boolean a) {// Constructor
+    public Player(String n, String c, boolean t, boolean a) {
         name = n;
         color = c;
         isTurn = t;
         isAI = a;
     }
 
-    public String getName() {//Get
+    public String getName() {
         return name;
     }
 
-    public String getColor() {//Get
+    public String getColor() {
         return color;
     }
 
-    public boolean getIsTurn() {//Get
+    public boolean getIsTurn() {
         return isTurn;
     }
 
-    public boolean getIsAI() {//Get
+    public boolean getIsAI() {
         return isAI;
     }
 
-    public void setIsTurn(boolean t) {//Set
+    public void setIsTurn(boolean t) {
         isTurn = t;
     }
 }
