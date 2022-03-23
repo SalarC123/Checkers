@@ -18,6 +18,7 @@ public class Main{
 	}
 	int row = 0;
 	int col = 0;
+	boolean goodInp = false;
 	public void run(String[] args){
         Scanner sc = new Scanner(System.in);
         GameBoard gb = new GameBoard();
@@ -111,7 +112,7 @@ public class Main{
 
             boolean validPieceChosen = false;
             while (!validPieceChosen) {
-				//System.out.println(row+","+col);
+				System.out.println(row+","+col);
                 CheckerPiece currentPiece = gb.getGameBoard()[row][col];
                 if (currentPiece != null && 
                     currentPiece.getColor().equals(currentPlayerColor) &&
@@ -121,19 +122,46 @@ public class Main{
 
             System.out.print("Possible moves: ");
             System.out.println(gb.getAllPossibleJumps(row, col));
-            System.out.print("Enter indices of where you would like to move (e.g. 4,2): ");
-            String toIndices = sc.nextLine();
+			String toIndices = "";
+			while(!goodInp){
+				toIndices = JOptionPane.showInputDialog(null, "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
+				if(toIndices==null){
+					goodInp = false;
+				}
+				else if(toIndices.equals("")){
+					goodInp = false;
+				}
+				else if(toIndices.contains(" ")){
+					goodInp = false;
+				}
+				else{
+					goodInp = true;
+				}
+			}
+			goodInp = false;
             int toRow = Integer.parseInt(toIndices.substring(0,1));
             int toCol = Integer.parseInt(toIndices.substring(2));
 
             while (!gb.updateBoard(row, col, toRow, toCol)) {
-                System.out.println("INVALID MOVE, TRY AGAIN");
-                System.out.print("Enter indices of where you would like to move (e.g. 4,2): ");
-                toIndices = sc.nextLine();
+					while(!goodInp){
+					toIndices = JOptionPane.showInputDialog(null, "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
+					if(toIndices==null){
+						goodInp = false;
+					}
+					else if(toIndices.equals("")){
+						goodInp = false;
+					}
+					else if(toIndices.contains(" ")){
+						goodInp = false;
+					}
+					else{
+						goodInp = true;
+					}
+				}
                 toRow = Integer.parseInt(toIndices.substring(0,1));
                 toCol = Integer.parseInt(toIndices.substring(2));
             }
-
+			goodInp = false;
             checkerBoard.repaint();
 
             p1.setIsTurn(!p1.getIsTurn());
