@@ -4,62 +4,62 @@ public class GameBoard {
   private CheckerPiece[][] gameBoard;
   
   public GameBoard(){
-    gameBoard = new CheckerPiece[8][8];
+    gameBoard = new CheckerPiece[8][8]; //Initialize Gameboard, Sets as 8x8 Board
     for (int i = 0; i < 8; i++){
-      if(i%2 == 1){
-        gameBoard[0][i] = new CheckerPiece("w");
+      if(i%2 == 1){ //Odd Detector
+        gameBoard[0][i] = new CheckerPiece("w"); //Every other Piece on Row 0 Will be White
       }
       else
       {
-        gameBoard[0][i] = null;
+        gameBoard[0][i] = null; //Even Pieces are Null
       }
     }
     for (int i = 0; i < 8; i++){
-      if(i%2 == 0){
-        gameBoard[1][i] = new CheckerPiece("w");
-      }
-      else
-      {
-        gameBoard[1][i] = null;
-      }
-    }
-    for (int i = 0; i < 8; i++){
-      if(i%2 == 1){
-        gameBoard[2][i] = new CheckerPiece("w");
+      if(i%2 == 0){ //Even Detector
+        gameBoard[1][i] = new CheckerPiece("w"); //Every other Piece on Row 1 Will be White
       }
       else
       {
-        gameBoard[2][i] = null;
+        gameBoard[1][i] = null; //Odd Pieces are Null
       }
     }
     for (int i = 0; i < 8; i++){
-      gameBoard[3][i] = null;
+      if(i%2 == 1){//Odd Detector
+        gameBoard[2][i] = new CheckerPiece("w"); //Every other Piece on Row 2 Will be White
+      }
+      else
+      {
+        gameBoard[2][i] = null; //Even pieces are Null
+      }
     }
     for (int i = 0; i < 8; i++){
-      gameBoard[4][i] = null;
+      gameBoard[3][i] = null; //All Pieces in Row are Null
     }
     for (int i = 0; i < 8; i++){
-      if(i%2 == 0){
-        gameBoard[5][i] = new CheckerPiece("b");
+      gameBoard[4][i] = null; //All Pieces in Row are Null
+    }
+    for (int i = 0; i < 8; i++){
+      if(i%2 == 0){ //Even Detector
+        gameBoard[5][i] = new CheckerPiece("b"); //Every other Piece on Row 5 Will be Black
       }
       else{
-        gameBoard[5][i] = null;
+        gameBoard[5][i] = null; //Odd Pieces are Null
       }
     }
     for (int i = 0; i < 8; i++){
-      if(i%2 == 1){
-        gameBoard[6][i] = new CheckerPiece("b");
+      if(i%2 == 1){ //Odd Detector
+        gameBoard[6][i] = new CheckerPiece("b"); //Every other Piece on Row 6 Will be Black
       }
       else{
         gameBoard[6][i] = null;
       }
     }
     for (int i = 0; i < 8; i++){
-      if(i%2 == 0){
-        gameBoard[7][i] = new CheckerPiece("b");
+      if(i%2 == 0){ //Even Detector
+        gameBoard[7][i] = new CheckerPiece("b"); //Every other Piece on Row 7 Will be Black
       }
       else{
-        gameBoard[7][i] = null;
+        gameBoard[7][i] = null; //Odd Pieces are Null
       }
     }
   }
@@ -68,12 +68,12 @@ public class GameBoard {
       return gameBoard;
   }
 
-  private boolean isInArray(int row, int col) {
+  private boolean isInArray(int row, int col) { //This method checks if the values are inside the array, stops OOB errors.
       return row >= 0 && row < 8 && col >= 0 && col < 8;
   }
 
 
-  public ArrayList<String> getAllPossibleJumps(int row, int col) {
+  public ArrayList<String> getAllPossibleJumps(int row, int col) { //Magic method that Checks for every possibke
       ArrayList<String> allPossibleJumps = new ArrayList<String>();
       
       CheckerPiece piece = gameBoard[row][col];
@@ -135,6 +135,7 @@ public class GameBoard {
       return true;
   }
 
+
   public String determineWinner() {
       int whiteCount = 0;
       int blackCount = 0;
@@ -161,15 +162,15 @@ public class GameBoard {
         finalString +="|-------------------------------|\n";
           for (int j = 0; j < gameBoard[0].length; j++) {
               if (gameBoard[i][j] == null) {
-                  finalString += "| . ";
+                  finalString += "| . ";//Adds the Text "Barrier", then adds a . to represent nulls/empty spaces
               } else {
-                  finalString += "|" + gameBoard[i][j] + " ";
+                  finalString += "|" + gameBoard[i][j] + " "; //adds text "Barrier", then the information of the peice at that location on the board.
               }
           }
-          finalString += "|\n";
+          finalString += "|\n"; //Adds End barrier & New Line
       }
-      finalString +="|-------------------------------|\n";
-      return finalString;
+      finalString +="|-------------------------------|\n";//Adds Bottom "Barrier"
+      return finalString;//Return
   }
   
 }
