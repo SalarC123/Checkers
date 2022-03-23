@@ -24,10 +24,10 @@ public class Main{
         JOptionPane.showMessageDialog(null, "Thanks for playing our checkers game! \nFirst, each player will enter their name. \nThen, you will take turns selecting the pieces you want to move, and then where you want to move that piece. \nGood Luck!");
         JFrame GUI = new JFrame(); 
         GUI.setSize(527, 550); 
-		GUI.setResizable(false);
+				GUI.setResizable(false);
         GUI.setTitle("CheckerBoard"); 
         GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-		GUI.getContentPane().addMouseListener(new MouseAdapter(){
+				GUI.getContentPane().addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
 				col = e.getX()/64;
 				row = e.getY()/64;
@@ -72,14 +72,34 @@ public class Main{
 
         GUI.add(checkerBoard);
         GUI.setVisible(true);
-
-        String name = JOptionPane.showInputDialog("Player 1, enter your name: ");
+		
+        String name = "";
+		name = JOptionPane.showInputDialog("Player 1, enter your name: ");
+		if(name==null){
+			name = "Player 1";
+		}
+		else if(name.equals(" ")){
+			name = "Player 1";
+		}
+		else if(name.equals("")){
+			name = "Player 1";
+		}
         Player p1 = new Player(name, "w", true, false);
         int n = JOptionPane.showConfirmDialog(null,"Would you like to play against the computer?","Computer", JOptionPane.YES_NO_OPTION);
         Player p2;
         if (n == JOptionPane.YES_OPTION) p2 = new Player("computer", "b", false, true);
         else {
-            p2 = new Player(JOptionPane.showInputDialog("Player 2, enter your name: "), "b", false, false);
+			name = JOptionPane.showInputDialog("Player 2, enter your name: ");
+			if(name==null){
+				name = "Player 2";
+			}
+			else if(name.equals(" ")){
+				name = "Player 2";
+			}
+			else if(name.equals("")){
+				name = "Player 2";
+			}
+			p2 = new Player(name, "b", false, false);
         }
 
         boolean win = false;
@@ -91,7 +111,7 @@ public class Main{
 
             boolean validPieceChosen = false;
             while (!validPieceChosen) {
-				System.out.println(row+","+col);
+				//System.out.println(row+","+col);
                 CheckerPiece currentPiece = gb.getGameBoard()[row][col];
                 if (currentPiece != null && 
                     currentPiece.getColor().equals(currentPlayerColor) &&
