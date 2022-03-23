@@ -1,3 +1,8 @@
+/*
+Names: Jacob, John, Nik, Salar
+Date: April 1, 2022
+Purpose: Use knowledge from inheritance, team development, agile, scrum, and github to create a functional checkers game
+*/
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
