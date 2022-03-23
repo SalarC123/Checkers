@@ -1,15 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main{
+    int row = 0;
+	int col = 0;
+    public ArrayList<String> possibleJumps = new ArrayList<String>();
 	public static void main (String[] args)
 	{
 		try
 		{
 			Main obj = new Main();
-			obj.run (args);
+			obj.run();
 		}
 		catch (Exception e)
 		{
@@ -22,6 +26,7 @@ public class Main{
 	public void run(String[] args){
         Scanner sc = new Scanner(System.in);
         GameBoard gb = new GameBoard();
+
         JOptionPane.showMessageDialog(null, "Thanks for playing our checkers game! \nFirst, each player will enter their name. \nThen, you will take turns selecting the pieces you want to move, and then where you want to move that piece. \nGood Luck!");
         JFrame GUI = new JFrame(); 
         GUI.setSize(527, 550); 
@@ -29,12 +34,13 @@ public class Main{
         GUI.setTitle("CheckerBoard"); 
         GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 				GUI.getContentPane().addMouseListener(new MouseAdapter(){
-			public void mouseClicked(MouseEvent e){
-				col = e.getX()/64;
-				row = e.getY()/64;
-			}
-		});
+			  public void mouseClicked(MouseEvent e){
+          col = e.getX()/64;
+          row = e.getY()/64;
+			  }
+	});
 		
+        // creates checkerboard and paints it with the board colors and default pieces
         JPanel checkerBoard = new JPanel() {
             @Override
             public void paint(Graphics g) {
@@ -68,8 +74,37 @@ public class Main{
                     }
                     white = !white;
                 }
+
+                // draw side labels
+                for (int i = 0; i < 8; i++) {
+                    g.setColor(Color.GRAY);
+                    g.drawString(""+(i), 520, i*64 + 36);
+                }
+
+                // draw bottom labels
+                for (int i = 0; i < 8; i++) {
+                    g.setColor(Color.GRAY);
+                    g.drawString(""+(i), i*64 + 32, 530);
+                }
+
+                for (int i = 0; i < possibleJumps.size(); i++) {
+                    int possibleRow = Integer.parseInt(possibleJumps.get(i).substring(0,1));
+                    int possibleCol = Integer.parseInt(possibleJumps.get(i).substring(2));
+                    g.setColor(Color.CYAN);
+                    g.drawRect(possibleCol*64, possibleRow*64, 64, 64);
+                }
             }    
         };
+
+        // listener for mouse clicks on board
+        GUI.getContentPane().addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				col = e.getX()/64;
+				row = e.getY()/64;
+                possibleJumps = gb.getAllPossibleJumps(row, col);		
+                checkerBoard.repaint();	
+            }
+		});
 
         GUI.add(checkerBoard);
         GUI.setVisible(true);
@@ -103,6 +138,7 @@ public class Main{
 			p2 = new Player(name, "b", false, false);
         }
 
+        // main game loop
         boolean win = false;
         while (!win) {
             if (!gb.determineWinner().equals("none")) win = true;
@@ -117,6 +153,9 @@ public class Main{
                 if (currentPiece != null && 
                     currentPiece.getColor().equals(currentPlayerColor) &&
                     gb.getAllPossibleJumps(row, col).size() > 0) validPieceChosen = true;
+                
+                int t = JOptionPane.showConfirmDialog(null, "Have you chosen a piece yet?", "Choose Piece", JOptionPane.YES_NO_OPTION);
+                System.out.println(t);
                 //else System.out.println("INVALID PIECE");
             }
 
@@ -174,6 +213,8 @@ public class Main{
 
         // TODO: AI when user chooses to play against computer
         // TODO: force jumps and double jumps        
+        // TODO: error handling if user does not enter name
+        // TODO: make getAllPossibleJumps method take in which player is checking as well
         
     }
 }
