@@ -1,4 +1,4 @@
- statusimport java.util.ArrayList;
+ import java.util.ArrayList;
 
 public class GameBoard {
   private CheckerPiece[][] gameBoard;

@@ -96,15 +96,23 @@ public class Main{
                 if (currentPiece != null && 
                     currentPiece.getColor().equals(currentPlayerColor) &&
                     gb.getAllPossibleJumps(row, col).size() > 0) validPieceChosen = true;
-                //else System.out.println("INVALID PIECE");
+                else System.out.println("INVALID PIECE");
             }
-
-            System.out.print("Possible moves: ");
-            System.out.println(gb.getAllPossibleJumps(row, col));
-            System.out.print("Enter indices of where you would like to move (e.g. 4,2): ");
-            String toIndices = sc.nextLine();
-            int toRow = Integer.parseInt(toIndices.substring(0,1));
-            int toCol = Integer.parseInt(toIndices.substring(2));
+            int toRow = 0;
+            int toCol = 0;
+            String toIndices;
+          
+            if(currentPlayer.getIsAI()){
+              System.out.print("Computer is making a random move");
+            }
+            else{
+              System.out.print("Possible moves: ");
+              System.out.println(gb.getAllPossibleJumps(row, col));
+              System.out.print("Enter indices of where you would like to move (e.g. 4,2): ");
+              toIndices = sc.nextLine();
+              toRow = Integer.parseInt(toIndices.substring(0,1));
+              toCol = Integer.parseInt(toIndices.substring(2));
+            }
 
             while (!gb.updateBoard(row, col, toRow, toCol)) {
                 System.out.println("INVALID MOVE, TRY AGAIN");
