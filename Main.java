@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 public class Main{
     int row = 0;
-	int col = 0;
+       int col = 0;
     public ArrayList<String> possibleJumps = new ArrayList<String>();
 	public static void main (String[] args)
-	{
+        {
 		try
-		{
+            {
 			Main obj = new Main();
 			obj.run();
 		}
