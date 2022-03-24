@@ -20,25 +20,18 @@ public class Main{
 			e.printStackTrace ();
 		}
 	}
-	int row = 0;
-	int col = 0;
-	boolean goodInp = false;
-	public void run(String[] args){
+
+	public void run(){
         Scanner sc = new Scanner(System.in);
         GameBoard gb = new GameBoard();
 
         JOptionPane.showMessageDialog(null, "Thanks for playing our checkers game! \nFirst, each player will enter their name. \nThen, you will take turns selecting the pieces you want to move, and then where you want to move that piece. \nGood Luck!");
         JFrame GUI = new JFrame(); 
-        GUI.setSize(527, 550); 
-				GUI.setResizable(false);
+        GUI.setSize(546, 576); 
+		GUI.setResizable(false);
+        GUI.setBackground(Color.WHITE);
         GUI.setTitle("CheckerBoard"); 
         GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-				GUI.getContentPane().addMouseListener(new MouseAdapter(){
-			  public void mouseClicked(MouseEvent e){
-          col = e.getX()/64;
-          row = e.getY()/64;
-			  }
-	});
 		
         // creates checkerboard and paints it with the board colors and default pieces
         JPanel checkerBoard = new JPanel() {
@@ -108,34 +101,15 @@ public class Main{
 
         GUI.add(checkerBoard);
         GUI.setVisible(true);
-		
-        String name = "";
-		name = JOptionPane.showInputDialog("Player 1, enter your name: ");
-		if(name==null){
-			name = "Player 1";
-		}
-		else if(name.equals(" ")){
-			name = "Player 1";
-		}
-		else if(name.equals("")){
-			name = "Player 1";
-		}
+
+        // basic game setup
+        String name = JOptionPane.showInputDialog("Player 1, enter your name: ");
         Player p1 = new Player(name, "w", true, false);
         int n = JOptionPane.showConfirmDialog(null,"Would you like to play against the computer?","Computer", JOptionPane.YES_NO_OPTION);
         Player p2;
         if (n == JOptionPane.YES_OPTION) p2 = new Player("computer", "b", false, true);
         else {
-			name = JOptionPane.showInputDialog("Player 2, enter your name: ");
-			if(name==null){
-				name = "Player 2";
-			}
-			else if(name.equals(" ")){
-				name = "Player 2";
-			}
-			else if(name.equals("")){
-				name = "Player 2";
-			}
-			p2 = new Player(name, "b", false, false);
+            p2 = new Player(JOptionPane.showInputDialog("Player 2, enter your name: "), "b", false, false);
         }
 
         // main game loop
@@ -161,46 +135,19 @@ public class Main{
 
             System.out.print("Possible moves: ");
             System.out.println(gb.getAllPossibleJumps(row, col));
-			String toIndices = "";
-			while(!goodInp){
-				toIndices = JOptionPane.showInputDialog(null, "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
-				if(toIndices==null){
-					goodInp = false;
-				}
-				else if(toIndices.equals("")){
-					goodInp = false;
-				}
-				else if(toIndices.contains(" ")){
-					goodInp = false;
-				}
-				else{
-					goodInp = true;
-				}
-			}
-			goodInp = false;
+            System.out.print("Enter indices of where you would like to move (e.g. 4,2): ");
+            String toIndices = sc.nextLine();
             int toRow = Integer.parseInt(toIndices.substring(0,1));
             int toCol = Integer.parseInt(toIndices.substring(2));
 
             while (!gb.updateBoard(row, col, toRow, toCol)) {
-					while(!goodInp){
-					toIndices = JOptionPane.showInputDialog(null, "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
-					if(toIndices==null){
-						goodInp = false;
-					}
-					else if(toIndices.equals("")){
-						goodInp = false;
-					}
-					else if(toIndices.contains(" ")){
-						goodInp = false;
-					}
-					else{
-						goodInp = true;
-					}
-				}
+                System.out.println("INVALID MOVE, TRY AGAIN");
+                System.out.print("Enter indices of where you would like to move (e.g. 4,2): ");
+                toIndices = sc.nextLine();
                 toRow = Integer.parseInt(toIndices.substring(0,1));
                 toCol = Integer.parseInt(toIndices.substring(2));
             }
-			goodInp = false;
+
             checkerBoard.repaint();
 
             p1.setIsTurn(!p1.getIsTurn());
