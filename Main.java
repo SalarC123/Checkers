@@ -149,7 +149,7 @@ public class Main {
             String toIndices = "";
             while (!goodInp) {
                 toIndices = JOptionPane.showInputDialog(null,
-                        "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
+                        "Enter indices of where you would like to move (e.g. 4,2): ");
                 if (toIndices == null) {
                     goodInp = false;
                 } else if (toIndices.equals("")) {
