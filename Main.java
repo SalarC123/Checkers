@@ -22,6 +22,16 @@ public class Main {
     int row = 0;
     int col = 0;
     boolean goodInp = false;
+  public String InputIndices(String Indices){//Input Checker Function
+    if(Indices.length() == 3 && Indices.charAt(0) >= 48 && Indices.charAt(0) <= 57 && Indices.charAt(2) >=48 && Indices.charAt(2) <= 57 && Indices.charAt(1) == 45){//Checks if everything meets Criteria
+      
+    return Indices;
+    }
+    else{
+      //System.out.println("\nInvalid Input, Please Try Again");
+      return null;
+    }
+  }
 
     public void run(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -148,8 +158,8 @@ public class Main {
             System.out.println(gb.getAllPossibleJumps(row, col));
             String toIndices = "";
             while (!goodInp) {
-                toIndices = JOptionPane.showInputDialog(null,
-                        "Enter indices of where you would like to move (e.g. 4,2): ");
+                toIndices = InputIndices(JOptionPane.showInputDialog(null,
+                        "Enter indices of where you would like to move (e.g. 4,2): "));
                 if (toIndices == null) {
                     goodInp = false;
                 } else if (toIndices.equals("")) {
@@ -166,8 +176,7 @@ public class Main {
 
             while (!gb.updateBoard(row, col, toRow, toCol)) {
                 while (!goodInp) {
-                    toIndices = JOptionPane.showInputDialog(null,
-                            "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
+                    toIndices = InputIndices(JOptionPane.showInputDialog(null,"Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move"));
                     if (toIndices == null) {
                         goodInp = false;
                     } else if (toIndices.equals("")) {

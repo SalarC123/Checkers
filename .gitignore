@@ -1,3 +1,5 @@
 *.class
 main.sh
 PAT
+.replit
+.breakpoints
