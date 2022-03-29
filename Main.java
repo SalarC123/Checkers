@@ -23,8 +23,18 @@ public class Main {
 
     int row = 0;
     int col = 0;
+    boolean goodInp = false;
+  public String InputIndices(String Indices){//Input Checker Function
+    if(Indices.length() == 3 && Indices.charAt(0) >= 48 && Indices.charAt(0) <= 57 && Indices.charAt(2) >=48 && Indices.charAt(2) <= 57 && Indices.charAt(1) == 44){//Checks if everything meets Criteria
+      
+    return Indices;
+    }
+    else{
+      //System.out.println("\nInvalid Input, Please Try Again");
+      return null;
+    }
+  }
     String boardPlayerInfo = "";
-    // boolean goodInp = false;
 
     public void run(String[] args) throws InterruptedException {
         Scanner sc = new Scanner(System.in);
@@ -131,13 +141,13 @@ public class Main {
             String currentPlayerColor = currentPlayer.getColor();
             boardPlayerInfo = currentPlayer.getName() + "'s turn - " + currentPlayerColor;
             checkerBoard.repaint();
-
+            //System.out.println("Possible moves: " + gb.getAllPossibleJumps(row, col));
             ArrayList<String> forceJumpSpot = gb.canForceJump(currentPlayer);
             boolean goodInput = false;
             if (forceJumpSpot.isEmpty()) {
                 String indices="";
                 while (!goodInput) {
-                    indices = JOptionPane.showInputDialog(null, "Enter indices of piece you want to move (e.g. 1,3): ", "Make a Move");
+                    indices = InputIndices(JOptionPane.showInputDialog(null, "Enter indices of piece you want to move (e.g. 1,3): ", "Make a Move"));
                 
                     if (indices == null) {
                         goodInput = false;
@@ -165,8 +175,7 @@ public class Main {
                 String toIndices = "";
                 boolean goodInp = false;
                 while (!goodInp) {
-                    toIndices = JOptionPane.showInputDialog(null,
-                            "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
+                    toIndices = InputIndices(JOptionPane.showInputDialog(null,"Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move"));
                     if (toIndices == null) {
                         goodInp = false;
                     } else if (toIndices.equals("")) {
@@ -178,6 +187,7 @@ public class Main {
                     } else {
                         goodInp = true;
                     }
+                  //if (!goodInp){System.out.println("BadIn");}
                 }
                 goodInp = false;
                 int toRow = Integer.parseInt(toIndices.substring(0, 1));
@@ -242,7 +252,7 @@ public class Main {
         }
 
         Player winner = p1.getColor().equals(gb.determineWinner()) ? p1 : p2;
-        System.out.println(winner.getName() + " IS THE WINNER!!!");
+        JOptionPane.showMessageDialog(null,(winner.getName() + " IS THE WINNER!!!"));
 
         // TODO: AI when user chooses to play against computer
         // TODO: change piece that you chose to move if you change your mind
