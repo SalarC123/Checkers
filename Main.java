@@ -7,7 +7,9 @@ Purpose: Use knowledge from inheritance, team development, agile, scrum, and git
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,7 +25,7 @@ public class Main {
     int col = 0;
     boolean goodInp = false;
   public String InputIndices(String Indices){//Input Checker Function
-    if(Indices.length() == 3 && Indices.charAt(0) >= 48 && Indices.charAt(0) <= 57 && Indices.charAt(2) >=48 && Indices.charAt(2) <= 57 && Indices.charAt(1) == 45){//Checks if everything meets Criteria
+    if(Indices.length() == 3 && Indices.charAt(0) >= 48 && Indices.charAt(0) <= 57 && Indices.charAt(2) >=48 && Indices.charAt(2) <= 57 && Indices.charAt(1) == 44){//Checks if everything meets Criteria
       
     return Indices;
     }
@@ -32,23 +34,24 @@ public class Main {
       return null;
     }
   }
+    String boardPlayerInfo = "";
 
-    public void run(String[] args) {
+    public void run(String[] args) throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         GameBoard gb = new GameBoard();
         JOptionPane.showMessageDialog(null,
                 "Thanks for playing our checkers game! \nFirst, each player will enter their name. \nThen, you will take turns selecting the pieces you want to move, and then where you want to move that piece. \nGood Luck!");
         JFrame GUI = new JFrame();
-        GUI.setSize(547, 570);
+        GUI.setSize(547, 600);
         GUI.setResizable(false);
         GUI.setTitle("CheckerBoard");
         GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GUI.getContentPane().addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                col = e.getX() / 64;
-                row = e.getY() / 64;
-            }
-        });
+        // GUI.getContentPane().addMouseListener(new MouseAdapter() {
+        //     public void mouseClicked(MouseEvent e) {
+        //         col = e.getX() / 64;
+        //         row = e.getY() / 64;
+        //     }
+        // });
 
         JPanel checkerBoard = new JPanel() {
             @Override
@@ -96,12 +99,8 @@ public class Main {
                     g.drawString(""+(i), i*64 + 32, 530);
                 }
 
-                // for (int i = 0; i < possibleJumps.size(); i++) {
-                //     int possibleRow = Integer.parseInt(possibleJumps.get(i).substring(0,1));
-                //     int possibleCol = Integer.parseInt(possibleJumps.get(i).substring(2));
-                //     g.setColor(Color.CYAN);
-                //     g.drawRect(possibleCol*64, possibleRow*64, 64, 64);
-                // }
+                g.setColor(Color.RED);
+                g.drawString(boardPlayerInfo, 100, 555);
             }
         };
 
@@ -135,46 +134,46 @@ public class Main {
             p2 = new Player(name, "b", false, false);
         }
 
-        boolean win = false;
-        while (!win) {
+        while (true) {
             if (!gb.determineWinner().equals("none"))
-                win = true;
+                break;
             Player currentPlayer = p1.getIsTurn() ? p1 : p2;
             String currentPlayerColor = currentPlayer.getColor();
-            System.out.println(currentPlayer.getName() + "'s turn");
+            boardPlayerInfo = currentPlayer.getName() + "'s turn - " + currentPlayerColor;
+            checkerBoard.repaint();
+            //System.out.println("Possible moves: " + gb.getAllPossibleJumps(row, col));
+            ArrayList<String> forceJumpSpot = gb.canForceJump(currentPlayer);
+            boolean goodInput = false;
+            if (forceJumpSpot.isEmpty()) {
+                String indices="";
+                while (!goodInput) {
+                    indices = InputIndices(JOptionPane.showInputDialog(null, "Enter indices of piece you want to move (e.g. 1,3): ", "Make a Move"));
+                
+                    if (indices == null) {
+                        goodInput = false;
+                    } else if (indices.equals("")) {
+                        goodInput = false;
+                    } else if (indices.contains(" ")) {
+                        goodInput = false;
+                    } else if (indices.length() != 3) {
+                        goodInput = false;
+                    } else {
+                        row = Integer.parseInt(indices.substring(0,1));
+                        col = Integer.parseInt(indices.substring(2));
 
-            boolean validPieceChosen = false;
-            while (!validPieceChosen) {
-                System.out.println(row + "," + col);
-                CheckerPiece currentPiece = gb.getGameBoard()[row][col];
-                if (currentPiece != null &&
-                        currentPiece.getColor().equals(currentPlayerColor) &&
-                        gb.getAllPossibleJumps(row, col).size() > 0)
-                    validPieceChosen = true;
-                // else System.out.println("INVALID PIECE");
-            }
-
-            System.out.print("Possible moves: ");
-            System.out.println(gb.getAllPossibleJumps(row, col));
-            String toIndices = "";
-            while (!goodInp) {
-                toIndices = InputIndices(JOptionPane.showInputDialog(null,
-                        "Enter indices of where you would like to move (e.g. 4,2): "));
-                if (toIndices == null) {
-                    goodInp = false;
-                } else if (toIndices.equals("")) {
-                    goodInp = false;
-                } else if (toIndices.contains(" ")) {
-                    goodInp = false;
-                } else {
-                    goodInp = true;
+                        CheckerPiece currentPiece = gb.getGameBoard()[row][col];
+                        if (currentPiece != null &&
+                                currentPiece.getColor().equals(currentPlayerColor) &&
+                                gb.getAllPossibleJumps(row, col).size() > 0) goodInput = true;
+                        else goodInput = false;
+                    }
                 }
-            }
-            goodInp = false;
-            int toRow = Integer.parseInt(toIndices.substring(0, 1));
-            int toCol = Integer.parseInt(toIndices.substring(2));
 
-            while (!gb.updateBoard(row, col, toRow, toCol)) {
+                System.out.print("Possible moves: ");
+                System.out.println(gb.getAllPossibleJumps(row, col));
+                
+                String toIndices = "";
+                boolean goodInp = false;
                 while (!goodInp) {
                     toIndices = InputIndices(JOptionPane.showInputDialog(null,"Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move"));
                     if (toIndices == null) {
@@ -183,15 +182,69 @@ public class Main {
                         goodInp = false;
                     } else if (toIndices.contains(" ")) {
                         goodInp = false;
+                    } else if (toIndices.length() != 3) {
+                        goodInp = false;
                     } else {
                         goodInp = true;
                     }
+                  //if (!goodInp){System.out.println("BadIn");}
                 }
-                toRow = Integer.parseInt(toIndices.substring(0, 1));
-                toCol = Integer.parseInt(toIndices.substring(2));
+                goodInp = false;
+                int toRow = Integer.parseInt(toIndices.substring(0, 1));
+                int toCol = Integer.parseInt(toIndices.substring(2));
+
+                while (!gb.updateBoard(currentPlayer, row, col, toRow, toCol)) {
+                    while (!goodInp) {
+                        toIndices = JOptionPane.showInputDialog(null,
+                                "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
+                        if (toIndices == null) {
+                            goodInp = false;
+                        } else if (toIndices.equals("")) {
+                            goodInp = false;
+                        } else if (toIndices.contains(" ")) {
+                            goodInp = false;
+                        } else if (toIndices.length() != 3) {
+                            goodInp = false;
+                        } else {
+
+                            toRow = Integer.parseInt(toIndices.substring(0, 1));
+                            toCol = Integer.parseInt(toIndices.substring(2));
+
+                            if (gb.getAllPossibleJumps(row, col).contains(toRow+"-"+toCol)) goodInp = true;
+                            else goodInp = false;
+                        }
+                    }
+                }
+                checkerBoard.repaint();
+            } else {
+                boolean doubleJump = false;
+                // does force jump
+                do {
+                    int fromRow = Integer.parseInt(forceJumpSpot.get(0).substring(0,1));
+                    int fromCol = Integer.parseInt(forceJumpSpot.get(0).substring(2));
+                    int toRow = Integer.parseInt(forceJumpSpot.get(1).substring(0,1));
+                    int toCol = Integer.parseInt(forceJumpSpot.get(1).substring(2));
+
+                    TimeUnit.SECONDS.sleep(1);
+                    gb.updateBoard(currentPlayer, fromRow, fromCol, toRow, toCol);
+                    TimeUnit.SECONDS.sleep(1);
+
+                    // checks if double jump is possible
+                    ArrayList<String> newPossibleJumps = gb.getAllPossibleJumps(toRow, toCol);
+                    for (String jump: newPossibleJumps) {
+                        int newToRow = Integer.parseInt(jump.substring(0,1));
+                        if (Math.abs(newToRow-toRow) == 2) {
+                            forceJumpSpot.set(0, toRow+","+toCol);
+                            forceJumpSpot.set(1, jump);
+                            doubleJump = true;
+                        } else {
+                            doubleJump = false;
+                            break;
+                        }
+
+                    }
+                } while (doubleJump);
             }
-            goodInp = false;
-            checkerBoard.repaint();
 
             p1.setIsTurn(!p1.getIsTurn());
             p2.setIsTurn(!p2.getIsTurn());
@@ -199,10 +252,13 @@ public class Main {
         }
 
         Player winner = p1.getColor().equals(gb.determineWinner()) ? p1 : p2;
-        System.out.println(winner.getName() + "IS THE WINNER!!!");
+        JOptionPane.showMessageDialog(null,(winner.getName() + " IS THE WINNER!!!"));
 
         // TODO: AI when user chooses to play against computer
-        // TODO: force jumps and double jumps
+        // TODO: change piece that you chose to move if you change your mind
+        // TODO: error checking (make sure first and third spot are digits and are 0-7)
+        // TODO: Display physical win screen
+        // TODO: fix error with checkWin
 
     }
 }
