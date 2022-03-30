@@ -117,7 +117,7 @@ public class GameBoard {
   }
 
 
-  public boolean updateBoard(int fromRow, int fromCol, int toRow, int toCol) {
+  public boolean updateBoard(Player p, int fromRow, int fromCol, int toRow, int toCol) {
       String newSpot = ""+toRow+"-"+toCol;
       if (!getAllPossibleJumps(fromRow, fromCol).contains(newSpot)) return false;
       // normal move
@@ -132,7 +132,36 @@ public class GameBoard {
           gameBoard[fromRow][fromCol] = null;
       }
 
+      String color = p.getColor();
+      if (color.equals("w") && toRow == 7) gameBoard[toRow][toCol] = new King("w");
+      else if (color.equals("b") && toRow == 0) gameBoard[toRow][toCol] = new King("b");
+
       return true;
+  }
+
+  public ArrayList<String> canForceJump(Player p) {
+      // returns ArrayList with two elements: {string containing oldSpot, string containing newSpot}
+      // e.g. {"1,2", "3,4"}
+      String color = p.getColor();
+      ArrayList<String> spots = new ArrayList<String>();
+
+      for (int i = 0; i < gameBoard.length; i++) {
+        for (int j = 0; j < gameBoard[i].length; j++) {
+          CheckerPiece piece = gameBoard[i][j];
+          if (piece == null || !piece.getColor().equals(color)) continue;
+          ArrayList<String> jumps = getAllPossibleJumps(i, j);
+          for (String jump: jumps) {
+            int toRow = Integer.parseInt(jump.substring(0,1));
+            if (Math.abs(i-toRow) == 2) {
+              spots.add(i+","+j);
+              spots.add(jump);
+              return spots;
+            }
+          }
+        }
+      }
+
+      return spots;
   }
 
 
@@ -141,7 +170,7 @@ public class GameBoard {
       int blackCount = 0;
 
       for (int i = 0; i < gameBoard.length; i++) {
-          for (int j = 0; j < gameBoard[0].length; j++) {
+          for (int j = 0; j < gameBoard[i].length; j++) {
               CheckerPiece piece = gameBoard[i][j];
               if (piece == null) continue;
               String color = piece.getColor();
