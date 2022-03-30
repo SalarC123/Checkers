@@ -12,6 +12,10 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
+
+    public static boolean isDigit(char c) {
+        return c >= 48 && c <= 57;
+    }
     public static void main(String[] args) {
         try {
             Main obj = new Main();
@@ -124,7 +128,7 @@ public class Main {
             p2 = new Player(name, "b", false, false);
         }
 
-        while (true) {
+        restart: while (true) {
             if (!gb.determineWinner().equals("none"))
                 break;
             Player currentPlayer = p1.getIsTurn() ? p1 : p2;
@@ -137,7 +141,7 @@ public class Main {
             if (forceJumpSpot.isEmpty()) {
                 String indices="";
                 while (!goodInput) {
-                    indices = JOptionPane.showInputDialog(null, "Enter indices of piece you want to move (e.g. 1,3): ", "Make a Move");
+                    indices = JOptionPane.showInputDialog(null, currentPlayer.getName() + ", Select piece (e.g. 1,3): ");
                 
                     if (indices == null) {
                         goodInput = false;
@@ -146,6 +150,8 @@ public class Main {
                     } else if (indices.contains(" ")) {
                         goodInput = false;
                     } else if (indices.length() != 3) {
+                        goodInput = false;
+                    } else if (!(isDigit(indices.charAt(0)) && isDigit(indices.charAt(2)))) {
                         goodInput = false;
                     } else {
                         row = Integer.parseInt(indices.substring(0,1));
@@ -164,36 +170,24 @@ public class Main {
                 
                 String toIndices = "";
                 boolean goodInp = false;
-                while (!goodInp) {
-                    toIndices = JOptionPane.showInputDialog(null,
-                            "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
-                    if (toIndices == null) {
-                        goodInp = false;
-                    } else if (toIndices.equals("")) {
-                        goodInp = false;
-                    } else if (toIndices.contains(" ")) {
-                        goodInp = false;
-                    } else if (toIndices.length() != 3) {
-                        goodInp = false;
-                    } else {
-                        goodInp = true;
-                    }
-                }
-                goodInp = false;
-                int toRow = Integer.parseInt(toIndices.substring(0, 1));
-                int toCol = Integer.parseInt(toIndices.substring(2));
+                int toRow=0;
+                int toCol=0;
 
-                while (!gb.updateBoard(currentPlayer, row, col, toRow, toCol)) {
+                do {
                     while (!goodInp) {
                         toIndices = JOptionPane.showInputDialog(null,
-                                "Enter indices of where you would like to move (e.g. 4,2): ", "Make a Move");
+                                "Enter indices of where you would like to move (e.g. 4,2): ");
                         if (toIndices == null) {
+                            // user clicks cancel and wants to choose another move
                             goodInp = false;
+                            continue restart;
                         } else if (toIndices.equals("")) {
                             goodInp = false;
                         } else if (toIndices.contains(" ")) {
                             goodInp = false;
                         } else if (toIndices.length() != 3) {
+                            goodInp = false;
+                        } else if (!(isDigit(toIndices.charAt(0)) && isDigit(toIndices.charAt(2)))) {
                             goodInp = false;
                         } else {
 
@@ -203,8 +197,10 @@ public class Main {
                             if (gb.getAllPossibleJumps(row, col).contains(toRow+"-"+toCol)) goodInp = true;
                             else goodInp = false;
                         }
-                    }
-                }
+                    }    
+                    toRow = Integer.parseInt(toIndices.substring(0, 1));
+                    toCol = Integer.parseInt(toIndices.substring(2));    
+                } while (!gb.updateBoard(currentPlayer, row, col, toRow, toCol));
                 checkerBoard.repaint();
             } else {
                 boolean doubleJump = false;
@@ -242,13 +238,9 @@ public class Main {
         }
 
         Player winner = p1.getColor().equals(gb.determineWinner()) ? p1 : p2;
-        System.out.println(winner.getName() + " IS THE WINNER!!!");
+        JOptionPane.showMessageDialog(null, winner.getName() + " IS THE WINNER!!!");
 
         // TODO: AI when user chooses to play against computer
-        // TODO: change piece that you chose to move if you change your mind
-        // TODO: error checking (make sure first and third spot are digits and are 0-7)
-        // TODO: Display physical win screen
-        // TODO: fix error with checkWin
 
     }
 }
