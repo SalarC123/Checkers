@@ -13,10 +13,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    public static boolean isDigit(char c) {
+    public static boolean isDigit(char c) { //Checks to make sure user inputs a valid coordinate
         return c >= 48 && c <= 57;
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) { //This section allows program to use global variables
         try {
             Main obj = new Main();
             obj.run(args);
@@ -25,17 +25,17 @@ public class Main {
         }
     }
 
-    int row = 0;
+    int row = 0; //global variables
     int col = 0;
     String boardPlayerInfo = "";
     // boolean goodInp = false;
 
     public void run(String[] args) throws InterruptedException {
         Scanner sc = new Scanner(System.in);
-        GameBoard gb = new GameBoard();
+        GameBoard gb = new GameBoard(); //Creates instance of the game
         JOptionPane.showMessageDialog(null,
-                "Thanks for playing our checkers game! \nFirst, each player will enter their name. \nThen, you will take turns selecting the pieces you want to move, and then where you want to move that piece. \nGood Luck!");
-        JFrame GUI = new JFrame();
+                "Thanks for playing our checkers game! \nFirst, each player will enter their name. \nThen, you will take turns selecting the pieces you want to move, and then where you want to move that piece. \nGood Luck!"); //Intro message for game instructions
+        JFrame GUI = new JFrame(); //the following lines of code initialize the gameboard window
         GUI.setSize(547, 600);
         GUI.setResizable(false);
         GUI.setTitle("CheckerBoard");
@@ -49,7 +49,7 @@ public class Main {
 
         JPanel checkerBoard = new JPanel() {
             @Override
-            public void paint(Graphics g) {
+            public void paint(Graphics g) { //This creates the shapes and images for the board
                 boolean white = true;
                 for (int i = 0; i < gb.getGameBoard().length; i++) {
                     for (int j = 0; j < gb.getGameBoard()[0].length; j++) {
@@ -97,12 +97,12 @@ public class Main {
                 g.drawString(boardPlayerInfo, 100, 555);
             }
         };
-
+				//Adds the stuff to the window
         GUI.add(checkerBoard);
         GUI.setVisible(true);
 
         String name = "";
-        name = JOptionPane.showInputDialog("Player 1, enter your name: ");
+        name = JOptionPane.showInputDialog("Player 1, enter your name: ");//checks for "stupid user" input for name
         if (name == null) {
             name = "Player 1";
         } else if (name.equals(" ")) {
