@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
@@ -140,7 +141,56 @@ public class Main {
             boolean goodInput = false;
             if (forceJumpSpot.isEmpty()) {
                 String indices="";
+
+            if(currentPlayer.getIsAI()){
                 while (!goodInput) {
+               CheckerPiece currentPiece = new CheckerPiece("null");
+               int count = 0;
+               Random rand = new Random();
+               CheckerPiece[][] tempGB = gb.getGameBoard();
+                 
+               for(int i = 0; i < 8; i++)
+                 {
+                   for(int j = 0; j < 8;j++)
+                     {
+                       CheckerPiece tempPiece = tempGB[i][j];
+                       if (tempPiece != null && tempPiece.getColor().equals(currentPlayerColor) &&
+                       gb.getAllPossibleJumps(i, j).size() > 0)
+                       { count++; }
+                     }
+                 }
+                 
+               count = rand.nextInt(count);
+              
+               for(int i = 0; i < 8; i++)
+                 {
+                   for(int j = 0; j < 8;j++)
+                     {
+                       CheckerPiece tempPiece = tempGB[i][j];
+                       if (tempPiece != null && tempPiece.getColor().equals(currentPlayerColor) &&
+                       gb.getAllPossibleJumps(i, j).size() > 0)
+                       { 
+                         count--;
+                         if(count == 0)
+                         {
+                           
+                           currentPiece =tempGB[i][j];
+                           row = i;
+                           col = j;
+                         }
+                       }
+                       
+                     }
+                 }
+                 
+               if (currentPiece != null && 
+                       currentPiece.getColor().equals(currentPlayerColor) &&
+                       gb.getAllPossibleJumps(row, col).size() > 0) goodInput = true;
+                  }
+             }
+              else{
+                while (!goodInput) {
+
                     indices = JOptionPane.showInputDialog(null, currentPlayer.getName() + ", Select piece (e.g. 1,3): ");
                 
                     if (indices == null) {
@@ -163,16 +213,28 @@ public class Main {
                                 gb.getAllPossibleJumps(row, col).size() > 0) goodInput = true;
                         else goodInput = false;
                     }
+                  }
                 }
+              
+                if(!currentPlayer.getIsAI())
+                  {
+                    System.out.print("Possible moves: ");
+                    System.out.println(gb.getAllPossibleJumps(row, col));
+                  }
+                else
+                  {
+                    System.out.println("computer is choosing a move");
+                  }
 
-                System.out.print("Possible moves: ");
-                System.out.println(gb.getAllPossibleJumps(row, col));
-                
+              
                 String toIndices = "";
+                ArrayList<String> aiMoves = gb.getAllPossibleJumps(row, col);
                 boolean goodInp = false;
                 int toRow=0;
                 int toCol=0;
 
+              if(!currentPlayer.getIsAI())
+              {
                 do {
                     while (!goodInp) {
                         toIndices = JOptionPane.showInputDialog(null,
@@ -201,7 +263,19 @@ public class Main {
                     toRow = Integer.parseInt(toIndices.substring(0, 1));
                     toCol = Integer.parseInt(toIndices.substring(2));    
                 } while (!gb.updateBoard(currentPlayer, row, col, toRow, toCol));
-                checkerBoard.repaint();
+              }
+              else
+              {
+                Random rand = new Random();
+                int choice = rand.nextInt(aiMoves.size());
+                String move = aiMoves.get(choice);
+                toRow = Integer.parseInt(move.substring(0, 1));
+                toCol = Integer.parseInt(move.substring(2));
+                gb.updateBoard(currentPlayer, row, col, toRow, toCol);
+              }
+              checkerBoard.repaint();
+
+
             } else {
                 boolean doubleJump = false;
                 // does force jump
@@ -240,7 +314,44 @@ public class Main {
         Player winner = p1.getColor().equals(gb.determineWinner()) ? p1 : p2;
         JOptionPane.showMessageDialog(null, winner.getName() + " IS THE WINNER!!!");
 
-        // TODO: AI when user chooses to play against computer
-
     }
 }
+
+
+// if(currentPlayer.getIsAI())
+//             {
+//                while (!validPieceChosen) {
+//               CheckerPiece currentPiece;
+//               int count = 0;
+//               Random rand = new Random();
+//               CheckerPiece[][] tempGB = gb.getGameBoard();
+                 
+//               for(int i = 0; i < 8; i++)
+//                 {
+//                   for(int j = 0; j < 8;j++)
+//                     {
+//                       CheckerPiece tempPiece = tempGB[i][j];
+//                       if (tempPiece.getColor().equals(currentPlayerColor))
+//                       { count++; }
+//                     }
+//                 }
+                 
+//               count = rand.nextInt(count);
+                 
+//               for(int i = 0; i < 8; i++)
+//                 {
+//                   for(int j = 0; j < 8;j++)
+//                     {
+//                       CheckerPiece tempPiece = tempGB[i][j];
+//                       if (tempPiece.getColor().equals(currentPlayerColor))
+//                       { count--; }
+//                       if(count == 0)
+//                       {currentPiece =tempGB[i][j];}
+//                     }
+//                 }
+                 
+//               if (currentPiece != null && 
+//                       currentPiece.getColor().equals(currentPlayerColor) &&
+//                       gb.getAllPossibleJumps(row, col).size() > 0) validPieceChosen = true;
+//                  }
+//             }
