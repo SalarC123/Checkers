@@ -163,7 +163,7 @@ public class GameBoard {
 
       return spots;
   }
-
+  
 
   public String determineWinner() {
       int whiteCount = 0;

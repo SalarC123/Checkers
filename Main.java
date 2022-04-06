@@ -17,6 +17,14 @@ public class Main {
     public static boolean isDigit(char c) { //Checks to make sure user inputs a valid coordinate
         return c >= 48 && c <= 57;
     }
+
+    public static boolean isLetter(char c) {
+        return (c >= 65 && c <= 90) || (c >= 97 && c <= 122);
+    }
+
+    public static int letterToIndex(char letter) {
+        return (int) (letter-65);
+    }
     public static void main(String[] args) { //This section allows program to use global variables
         try {
             Main obj = new Main();
@@ -29,11 +37,11 @@ public class Main {
     int row = 0; //global variables
     int col = 0;
     String boardPlayerInfo = "";
-    // boolean goodInp = false;
 
     public void run(String[] args) throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         GameBoard gb = new GameBoard(); //Creates instance of the game
+        System.out.println(letterToIndex('C'));
         JOptionPane.showMessageDialog(null,
                 "Thanks for playing our checkers game! \nFirst, each player will enter their name. \nThen, you will take turns selecting the pieces you want to move, and then where you want to move that piece. \nGood Luck!"); //Intro message for game instructions
         JFrame GUI = new JFrame(); //the following lines of code initialize the gameboard window
@@ -83,22 +91,24 @@ public class Main {
                 }
 
                 // draw side labels
-                for (int i = 0; i < 8; i++) {
+                for (char i = 0; i < 8; i++) {
                     g.setColor(Color.GRAY);
-                    g.drawString(""+(i), 520, i*64 + 36);
+                    char c = (char)(i+65);
+                    g.drawString(""+(c), 520, i*64 + 36);
                 }
 
                 // draw bottom labels
                 for (int i = 0; i < 8; i++) {
                     g.setColor(Color.GRAY);
-                    g.drawString(""+(i), i*64 + 32, 530);
+                    g.drawString(""+(i+1), i*64 + 32, 530);
                 }
 
                 g.setColor(Color.RED);
                 g.drawString(boardPlayerInfo, 100, 555);
             }
         };
-				//Adds the stuff to the window
+
+		//Adds the stuff to the window
         GUI.add(checkerBoard);
         GUI.setVisible(true);
 
@@ -201,11 +211,13 @@ public class Main {
                         goodInput = false;
                     } else if (indices.length() != 3) {
                         goodInput = false;
-                    } else if (!(isDigit(indices.charAt(0)) && isDigit(indices.charAt(2)))) {
+                    } else if (!(isLetter(indices.charAt(0)) && isDigit(indices.charAt(2)))) {
                         goodInput = false;
                     } else {
-                        row = Integer.parseInt(indices.substring(0,1));
-                        col = Integer.parseInt(indices.substring(2));
+                        row = letterToIndex(indices.substring(0, 1).toUpperCase().charAt(0));
+                        col = Integer.parseInt(indices.substring(2)) - 1;
+
+                        System.out.println(row + " " + col + " SELECT");
 
                         CheckerPiece currentPiece = gb.getGameBoard()[row][col];
                         if (currentPiece != null &&
@@ -249,19 +261,21 @@ public class Main {
                             goodInp = false;
                         } else if (toIndices.length() != 3) {
                             goodInp = false;
-                        } else if (!(isDigit(toIndices.charAt(0)) && isDigit(toIndices.charAt(2)))) {
+                        } else if (!(isLetter(toIndices.charAt(0)) && isDigit(toIndices.charAt(2)))) {
                             goodInp = false;
                         } else {
 
-                            toRow = Integer.parseInt(toIndices.substring(0, 1));
-                            toCol = Integer.parseInt(toIndices.substring(2));
+                            toRow = letterToIndex(toIndices.substring(0, 1).toUpperCase().charAt(0));
+                            toCol = Integer.parseInt(toIndices.substring(2)) - 1;
+
+                            System.out.println(toRow + " " + toCol + "MOVE");
 
                             if (gb.getAllPossibleJumps(row, col).contains(toRow+"-"+toCol)) goodInp = true;
                             else goodInp = false;
                         }
                     }    
-                    toRow = Integer.parseInt(toIndices.substring(0, 1));
-                    toCol = Integer.parseInt(toIndices.substring(2));    
+                    toRow = letterToIndex(toIndices.substring(0, 1).toUpperCase().charAt(0));
+                    toCol = Integer.parseInt(toIndices.substring(2)) - 1;   
                 } while (!gb.updateBoard(currentPlayer, row, col, toRow, toCol));
               }
               else
@@ -316,42 +330,3 @@ public class Main {
 
     }
 }
-
-
-// if(currentPlayer.getIsAI())
-//             {
-//                while (!validPieceChosen) {
-//               CheckerPiece currentPiece;
-//               int count = 0;
-//               Random rand = new Random();
-//               CheckerPiece[][] tempGB = gb.getGameBoard();
-                 
-//               for(int i = 0; i < 8; i++)
-//                 {
-//                   for(int j = 0; j < 8;j++)
-//                     {
-//                       CheckerPiece tempPiece = tempGB[i][j];
-//                       if (tempPiece.getColor().equals(currentPlayerColor))
-//                       { count++; }
-//                     }
-//                 }
-                 
-//               count = rand.nextInt(count);
-                 
-//               for(int i = 0; i < 8; i++)
-//                 {
-//                   for(int j = 0; j < 8;j++)
-//                     {
-//                       CheckerPiece tempPiece = tempGB[i][j];
-//                       if (tempPiece.getColor().equals(currentPlayerColor))
-//                       { count--; }
-//                       if(count == 0)
-//                       {currentPiece =tempGB[i][j];}
-//                     }
-//                 }
-                 
-//               if (currentPiece != null && 
-//                       currentPiece.getColor().equals(currentPlayerColor) &&
-//                       gb.getAllPossibleJumps(row, col).size() > 0) validPieceChosen = true;
-//                  }
-//             }
