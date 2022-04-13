@@ -211,7 +211,7 @@ public class Main {
                     while (!goodInput) {
 
                         indices = JOptionPane.showInputDialog(null,
-                                currentPlayer.getName() + ", Select piece (e.g. 1,3): ");
+                                currentPlayer.getName() + ", Select piece (e.g. A,3): ");
 
                         if (indices == null) {
                             goodInput = false;
